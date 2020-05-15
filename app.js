@@ -43,7 +43,7 @@ app.use("/players",player);
 
 //adding the tales-records module
 var talesRecords = require("./routes/records/taleRecords");
-app.use("/tales_records",talesRecords);
+app.use("/",talesRecords);
 
 app.listen(port,() => {
     console.log(`Example app listening on port ${port}`);

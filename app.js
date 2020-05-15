@@ -12,6 +12,10 @@ app.use(function(req,res,next){
     next();
 });
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ limit : "50mb", extended : true}));
+app.use(bodyParser.json({ limit: "50mb" }));
+
 var book = require("./routes/base/book");
 app.use("/book",book);
 
@@ -32,6 +36,10 @@ app.use("/tales",tales);
 
 var tools = require("./routes/base/tools");
 app.use("/tools",tools);
+
+
+var player = require("./routes/base/player");
+app.use("/players",player);
 
 app.listen(port,() => {
     console.log(`Example app listening on port ${port}`);

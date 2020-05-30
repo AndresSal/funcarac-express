@@ -12,9 +12,10 @@ app.use(function(req,res,next){
     next();
 });
 
-var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ limit : "50mb", extended : true}));
-app.use(bodyParser.json({ limit: "50mb" }));
+var bodyParser = require("body-parser"); 
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
 
 var book = require("./routes/base/book");
 app.use("/book",book);
@@ -42,8 +43,23 @@ var player = require("./routes/base/player");
 app.use("/players",player);
 
 //adding the tales-records module
-var talesRecords = require("./routes/records/taleRecords");
-app.use("/",talesRecords);
+var taleRecords = require("./routes/records/taleRecords");
+app.use("/tale_records",taleRecords);
+
+//adding the quiz-records module
+var quizRecords = require("./routes/records/quizRecords");
+app.use("/quiz_records",quizRecords);
+
+//adding the tool-records module
+var toolRecords = require("./routes/records/toolRecords");
+app.use("/tool_records",toolRecords);
+
+var puzzlePieceRecords = require("./routes/records/puzzlePieceRecords");
+app.use("/puzzle_piece_records",puzzlePieceRecords);
+
+var seedRecords = require("./routes/records/seedRecords");
+app.use("/seed_records",seedRecords);
+
 
 app.listen(port,() => {
     console.log(`Example app listening on port ${port}`);

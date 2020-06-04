@@ -47,15 +47,27 @@ router.get("/tale_record/:talesid/:playerid",function(req,res){
 });
 
 //update a specific tale record of a specific player
-router.put("/tale_record/:talesid/:playerid",function(req,res){
-    let playerId = req.params.playerid,
+router.put("/:talesid",function(req,res){
+    let playerId = req.body.playerid,
         talesId = req.params.talesid,
-        query = `UPDATE tales_record SET status = true\
-                 WHERE player_id = ${playerId} AND tales_id = ${talesId}`;
+        status = req.body.status,
+        tale_record = [
+            status,
+            playerId,
+            talesId
+        ];
+
+    let query = 'UPDATE tales_record SET status = ? WHERE player_id = ? and tales_id = ?';
+    
+    // let playerId = req.params.playerid,
+    //     talesId = req.params.talesid,
+    //     status = req.params.taleStatus,
+    //     query = `UPDATE tales_record SET status = '${status}'\
+    //              WHERE player_id = ${playerId} AND tales_id = ${talesId}`;
     
     var connection = mysql.createConnection(config.connection);
     connection.connect();
-    connection.query(query,function(err,rows,fields){
+    connection.query(query,tale_record,function(err,rows,fields){
         if(err) throw err;
     });
 

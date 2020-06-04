@@ -38,4 +38,35 @@ router.post("/player",function(req,res){
     connection.end();
 })
 
+//update specific quiz record of specific player
+router.put("/quiz_record/:quizid",function(req,res){
+    let playerId = req.body.playerid,
+        quizId = req.params.quizid,
+        hits = req.body.hits,
+        fails = req.body.fails,
+        score = req.body.score,
+        completed = (req.body.score===30)?1:0,
+        quiz_record = [
+            hits,
+            fails,
+            score,
+            completed,
+            quizId,
+            playerId   
+       ];
+    let query = 'UPDATE quiz_record SET hits = ?, fails = ?, score = ?, completed = ? WHERE quiz_id = ? and player_id = ?';
+    var connection = mysql.createConnection(config.connection);
+    connection.connect();
+    connection.query(query,quiz_record,function(err,rows,fields){
+        if(err) throw err;
+    });
+
+    query = `SELECT * FROM quiz_record WHERE player_id = ${playerId} AND quiz_id = ${quizId}`;
+    connection.query(query,function(err,rows,fields){
+        if(err) throw err;
+        res.status(200).json(rows);
+    })
+    connection.end();
+})
+
 module.exports = router;

@@ -35,6 +35,28 @@ router.post("/player",function(req,res){
         if (err) throw err;
         res.status(200).json(rows);
     });
+    connection.end();
+});
+
+router.put("/tool/:toolid",function(req,res){
+    let toolId = req.params.toolid,
+        playerId = req.body.playerid,
+        quantity = req.body.quantity,
+        tool_record = [quantity, toolId, playerId];
+
+    let query = "UPDATE tool_record SET quantity = ? WHERE tool_id = ? AND player_id = ?";
+    var connection = mysql.createConnection(config.connection);
+    connection.connect();
+    connection.query(query, tool_record,function(err, rows, fields){
+        if(err) throw(err);
+    });
+
+    query = `SELECT * FROM tool_record WHERE tool_id = ${toolId} AND player_id = ${playerId}`;
+    connection.query(query, function(err, rows, fields){
+        if(err) throw(err);
+        res.status(200).json(rows);
+    });
+    connection.end();
 })
 
 

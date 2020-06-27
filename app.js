@@ -60,6 +60,9 @@ app.use("/puzzle_piece_records",puzzlePieceRecords);
 var seedRecords = require("./routes/records/seedRecords");
 app.use("/seed_records",seedRecords);
 
+var chakraRecords = require("./routes/records/chakraRecords");
+app.use("/chakra_records",chakraRecords);
+
 
 app.listen(port,() => {
     console.log(`Example app listening on port ${port}`);

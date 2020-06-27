@@ -89,8 +89,11 @@ router.post("/player",function(req,res){
         connection.connect();
     let playerId = req.body.playerId;
     for (let talesId = 1;talesId<=12;talesId++){
-        let query = `INSERT INTO tales_record(tales_id,player_id,status)\
-                 VALUES (${talesId},${playerId},'new')`;
+        let taleStatus = 'new';
+        if(talesId !== 1){
+            taleStatus = 'blocked';
+        }
+        let query = `INSERT INTO tales_record(tales_id,player_id,status) VALUES (${talesId},${playerId},'${taleStatus}')`;
         connection.query(query,function(err,rows,fields){
             if(err) throw err;
         });
